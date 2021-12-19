@@ -1,7 +1,8 @@
-import Music_1 from "../assets/musics/1.mp3";
-import Music_2 from "../assets/musics/2.mp3";
-import Music_3 from "../assets/musics/3.mp3";
-import Music_4 from "../assets/musics/4.mp3";
+import Music_1 from "../assets/musics/1.wav";
+import Music_2 from "../assets/musics/2.wav";
+import Music_3 from "../assets/musics/3.wav";
+import Music_4 from "../assets/musics/4.wav";
+import Music_5 from "../assets/musics/5.wav";
 export default [
   {
     name: "Music_1",
@@ -18,5 +19,9 @@ export default [
   {
     name: "Music_4",
     path: Music_4
+  },
+  {
+    name: "Music_5",
+    path: Music_5
   }
 ];
