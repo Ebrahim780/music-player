@@ -1,18 +1,23 @@
 import React from "react";
 
-const Progress = ({ musicInfo, setMusicInfo, }) => {
+const Progress = ({ musicInfo, setMusicInfo, currentMusic }) => {
 
   const dragHandler = (e) => {
-    musicInfo.currentTime = e.target.value;
+    currentMusic.current.currentTime = e.target.value;
     setMusicInfo({ ...musicInfo, currentTime: e.target.value });
   };
 
-  const takeAnim = {
+  const getTime = (time) => {
+    return (Math.floor(time / 60) + ':' + ('0' + Math.floor(time % 60)).slice(-2))
+  }
+
+  const takeAnimate = {
     transform: `translateX(${musicInfo.animationPercentage}%)`,
   }
 
   return (
-    <div className="row justify-content-center">
+    <div className="row justify-content-center align-items-center">
+      <p className="time-line">{getTime(musicInfo.currentTime)}</p>
       <div className="progress col-lg-6 col-10 my-5">
         <div className="track"
           style={{
@@ -27,9 +32,10 @@ const Progress = ({ musicInfo, setMusicInfo, }) => {
             className="progress-bar"
             onChange={dragHandler}
           />
-          <div style={takeAnim} className="animate-track"></div>
+          <div style={takeAnimate} className="animate-track"></div>
         </div>
       </div>
+      <p className="time-line">{musicInfo.duration ? getTime(musicInfo.duration) : '0:00'}</p>
     </div>
   );
 }

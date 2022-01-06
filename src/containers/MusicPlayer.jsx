@@ -19,6 +19,7 @@ const MusicPlayer = () => {
     isEneded: false,
     musicRef: Musics[0],
   })
+
   const [musicInfo, setMusicInfo] = useState({
     volume: 0,
     duration: 0,
@@ -30,9 +31,8 @@ const MusicPlayer = () => {
   const currentMusic = useRef(null)
 
   useEffect(() => {
-    console.log(currentMusic)
-    // console.log(musicInfo)
-  }, [state, musicInfo])
+    console.log(musicInfo.currentTime)
+  }, [state])
 
   const timeHanlder = (e) => {
     const current = e.target.currentTime;
@@ -51,38 +51,40 @@ const MusicPlayer = () => {
     });
   }
 
-  const next = () => {
-    if (state.counter >= Musics.length - 1) {
+  const next = async () => {
+    if (state.counter >= Musics.length - 1)
       setState({
         ...state,
         counter: 0,
         musicRef: Musics[0]
       })
-    }
-    else {
+
+    else
       setState({
         ...state,
         counter: ++state.counter,
         musicRef: Musics[state.counter]
       })
-    }
+
+    await state.isPlaying ? currentMusic.current.play() : currentMusic.current.pause();
   };
 
-  const prev = () => {
-    if (state.counter === 0) {
+  const prev = async () => {
+    if (state.counter === 0)
       setState({
         ...state,
         counter: Musics.length - 1,
         musicRef: Musics[Musics.length - 1]
       })
-    }
-    else {
+
+    else
       setState({
         ...state,
         counter: --state.counter,
         musicRef: Musics[state.counter]
       })
-    }
+
+    await state.isPlaying ? currentMusic.current.play() : currentMusic.current.pause();
   };
 
   const play = () => {
@@ -98,7 +100,7 @@ const MusicPlayer = () => {
 
   const musicEndHandler = async () => {
     await next();
-    await currentMusic.current.play();
+    currentMusic.current.play();
   }
 
   return (
@@ -108,6 +110,7 @@ const MusicPlayer = () => {
         currentTime={musicInfo.currentTime}
         setMusicInfo={setMusicInfo}
         musicInfo={musicInfo}
+        currentMusic={currentMusic}
       />
       <audio
         onTimeUpdate={timeHanlder}
@@ -117,13 +120,18 @@ const MusicPlayer = () => {
         ref={currentMusic}
       />
       <div className="row justify-content-center">
-        <Button data-testid="prev-btn" onClick={prev} src={Prev} />
         <Button
-          data-testid="play-btn"
+          onClick={prev}
+          src={Prev}
+        />
+        <Button
           onClick={play}
           src={state.isPlaying ? Pause : Play}
         />
-        <Button data-testid="next-btn" onClick={next} src={Next} />
+        <Button
+          onClick={next}
+          src={Next}
+        />
       </div>
     </Container>
   )
