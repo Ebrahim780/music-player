@@ -5,6 +5,8 @@ import Prev from "../assets/prev.svg";
 import Play from "../assets/play.svg";
 import Pause from "../assets/pause.svg";
 import Button from "../components/Button";
+import Mute from "../assets/volume-mute.svg";
+import SoundUp from "../assets/volume-up.svg";
 import Progress from "../components/Progress";
 import Container from "../components/Container";
 import MusicTitle from "../components/MusicTitle";
@@ -16,7 +18,8 @@ const MusicPlayer = () => {
   const [state, setState] = useState({
     counter: 0,
     isPlaying: false,
-    isEneded: false,
+    isMute: false,
+    activeVolume: false,
     musicRef: Musics[0],
   })
 
@@ -31,7 +34,7 @@ const MusicPlayer = () => {
   const currentMusic = useRef(null)
 
   useEffect(() => {
-    console.log(musicInfo.currentTime)
+
   }, [state])
 
   const timeHanlder = (e) => {
@@ -103,6 +106,17 @@ const MusicPlayer = () => {
     currentMusic.current.play();
   }
 
+  const changeVolume = (e) => {
+    let volume = Number(e.target.value);
+    currentMusic.current.volume = volume;
+    setMusicInfo({ ...musicInfo, volume })
+    if (currentMusic.current.volume > 0)
+      setState({ ...state, isMute: false })
+    else
+      setState({ ...state, isMute: true })
+
+  }
+
   return (
     <Container>
       <MusicTitle title={state.musicRef.name} />
@@ -132,6 +146,20 @@ const MusicPlayer = () => {
           onClick={next}
           src={Next}
         />
+        <Button
+          onClick={() => setState({ ...state, activeVolume: !state.activeVolume })}
+          src={state.isMute ? Mute : SoundUp}
+        />
+        {state.activeVolume && (
+          <input
+            onChange={changeVolume}
+            value={musicInfo.volume}
+            type="range"
+            step={0.01}
+            min={0}
+            max={1}
+          />
+        )}
       </div>
     </Container>
   )

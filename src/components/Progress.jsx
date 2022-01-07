@@ -18,7 +18,7 @@ const Progress = ({ musicInfo, setMusicInfo, currentMusic }) => {
   return (
     <div className="row justify-content-center align-items-center">
       <p className="time-line">{getTime(musicInfo.currentTime)}</p>
-      <div className="progress col-lg-6 col-10 my-5">
+      <div className="progress col-lg-6 col-8 my-5">
         <div className="track"
           style={{
             background: `linear-gradient(to right, cyan, teal)`,
