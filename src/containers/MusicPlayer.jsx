@@ -114,7 +114,6 @@ const MusicPlayer = () => {
       setState({ ...state, isMute: false })
     else
       setState({ ...state, isMute: true })
-
   }
 
   return (
