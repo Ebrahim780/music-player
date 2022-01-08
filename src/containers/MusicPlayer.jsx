@@ -1,15 +1,15 @@
 import React from "react";
 import Musics from "../data/Musics";
-import Next from "../assets/next.svg";
-import Prev from "../assets/prev.svg";
-import Play from "../assets/play.svg";
-import Pause from "../assets/pause.svg";
 import Button from "../components/Button";
-import Mute from "../assets/volume-mute.svg";
-import SoundUp from "../assets/volume-up.svg";
+import Next from "../assets/icons/next.svg";
+import Prev from "../assets/icons/prev.svg";
+import Play from "../assets/icons/play.svg";
+import Pause from "../assets/icons/pause.svg";
 import Progress from "../components/Progress";
 import Container from "../components/Container";
 import MusicTitle from "../components/MusicTitle";
+import Mute from "../assets/icons/volume-mute.svg";
+import SoundUp from "../assets/icons/volume-up.svg";
 import { useEffect, useState, useRef } from "react";
 // import Audio from "../models/Audio";
 
@@ -54,7 +54,11 @@ const MusicPlayer = () => {
     });
   }
 
-  const next = async () => {
+  const playHandler = async () => {
+    await state.isPlaying ? currentMusic.current.play() : currentMusic.current.pause();
+  }
+
+  const next = () => {
     if (state.counter >= Musics.length - 1)
       setState({
         ...state,
@@ -69,10 +73,10 @@ const MusicPlayer = () => {
         musicRef: Musics[state.counter]
       })
 
-    await state.isPlaying ? currentMusic.current.play() : currentMusic.current.pause();
+    playHandler()
   };
 
-  const prev = async () => {
+  const prev = () => {
     if (state.counter === 0)
       setState({
         ...state,
@@ -87,7 +91,7 @@ const MusicPlayer = () => {
         musicRef: Musics[state.counter]
       })
 
-    await state.isPlaying ? currentMusic.current.play() : currentMusic.current.pause();
+    playHandler()
   };
 
   const play = () => {
@@ -103,7 +107,7 @@ const MusicPlayer = () => {
 
   const musicEndHandler = async () => {
     await next();
-    currentMusic.current.play();
+    await currentMusic.current.play();
   }
 
   const changeVolume = (e) => {
