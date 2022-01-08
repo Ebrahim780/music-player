@@ -92,7 +92,7 @@ const MusicPlayer = () => {
       })
 
     playHandler()
-  };
+  }
 
   const play = () => {
     if (!state.isPlaying) {
@@ -103,7 +103,7 @@ const MusicPlayer = () => {
       currentMusic.current.pause()
       setState({ ...state, isPlaying: !state.isPlaying })
     }
-  };
+  }
 
   const musicEndHandler = async () => {
     await next();
@@ -122,7 +122,10 @@ const MusicPlayer = () => {
 
   return (
     <Container>
-      <MusicTitle title={state.musicRef.name} />
+      <MusicTitle
+        title={state.musicRef.name}
+        cover={state.musicRef.cover}
+        artist={state.musicRef.artist} />
       <Progress
         currentTime={musicInfo.currentTime}
         setMusicInfo={setMusicInfo}
@@ -166,6 +169,6 @@ const MusicPlayer = () => {
       </div>
     </Container>
   )
-};
+}
 
 export default MusicPlayer;
