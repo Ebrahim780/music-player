@@ -11,7 +11,6 @@ import MusicTitle from "../components/MusicTitle";
 import Mute from "../assets/icons/volume-mute.svg";
 import SoundUp from "../assets/icons/volume-up.svg";
 import { useEffect, useState, useRef } from "react";
-// import Audio from "../models/Audio";
 
 const MusicPlayer = () => {
   // State
@@ -19,6 +18,8 @@ const MusicPlayer = () => {
     counter: 0,
     isPlaying: false,
     isMute: false,
+    firstMusic: true,
+    lastMusic: false,
     activeVolume: false,
     musicRef: Musics[0],
   })
@@ -62,13 +63,13 @@ const MusicPlayer = () => {
     if (state.counter >= Musics.length - 1)
       setState({
         ...state,
-        counter: 0,
-        musicRef: Musics[0]
+        lastMusic: true
       })
 
     else
       setState({
         ...state,
+        firstMusic: false,
         counter: ++state.counter,
         musicRef: Musics[state.counter]
       })
@@ -80,13 +81,13 @@ const MusicPlayer = () => {
     if (state.counter === 0)
       setState({
         ...state,
-        counter: Musics.length - 1,
-        musicRef: Musics[Musics.length - 1]
+        firstMusic: true
       })
 
     else
       setState({
         ...state,
+        lastMusic: false,
         counter: --state.counter,
         musicRef: Musics[state.counter]
       })
@@ -106,8 +107,14 @@ const MusicPlayer = () => {
   }
 
   const musicEndHandler = async () => {
-    await next();
-    await currentMusic.current.play();
+    if (state.lastMusic) {
+      await currentMusic.current.pause()
+      setState({ ...state, isPlaying: !state.isPlaying })
+    }
+    else {
+      await next();
+      await currentMusic.current.play();
+    }
   }
 
   const changeVolume = (e) => {
@@ -141,6 +148,7 @@ const MusicPlayer = () => {
       />
       <div className="row justify-content-center">
         <Button
+          disabled={state.firstMusic}
           onClick={prev}
           src={Prev}
         />
@@ -149,6 +157,7 @@ const MusicPlayer = () => {
           src={state.isPlaying ? Pause : Play}
         />
         <Button
+          disabled={state.lastMusic}
           onClick={next}
           src={Next}
         />
