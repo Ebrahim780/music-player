@@ -1,9 +1,14 @@
 import React from "react";
 
-function MusicTitle({ title, cover, artist }) {
+function MusicTitle({ title, cover, artist, isPlaying }) {
   return (
     <div className="title">
-      <img src={cover} alt={title} className="title-cover"/>
+      <img
+        src={cover}
+        alt={title}
+        className="title-cover"
+        style={{animation: isPlaying ? 'changeShadow 200ms 10s linear infinite alternate' : ''}}
+      />
       <h4 className="mt-4">
         {title}
       </h4>

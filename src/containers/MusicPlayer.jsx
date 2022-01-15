@@ -130,6 +130,7 @@ const MusicPlayer = () => {
   return (
     <Container>
       <MusicTitle
+        isPlaying={state.isPlaying}
         title={state.musicRef.name}
         cover={state.musicRef.cover}
         artist={state.musicRef.artist} />
