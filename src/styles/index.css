@@ -3,7 +3,6 @@
 }
 
 body {
-  min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   background: linear-gradient(transparent, #3292ff55);
@@ -14,8 +13,8 @@ input {
 }
 
 .app {
-  width: 100vw;
-  height: 100vh;
+  min-height:100vh;
+  max-width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -34,17 +34,13 @@ const MusicPlayer = () => {
   // ref
   const currentMusic = useRef(null)
 
-  useEffect(() => {
-
-  }, [state])
-
   const timeHanlder = (e) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
 
     const roundedCurrent = Math.round(current);
     const roundedDuration = Math.round(duration);
-    const percentage = Math.round((roundedCurrent / roundedDuration) * 100);
+    const percentage = Math.round((roundedCurrent / roundedDuration) * 100)
 
     setMusicInfo({
       ...musicInfo,
@@ -52,11 +48,11 @@ const MusicPlayer = () => {
       duration: duration,
       animationPercentage: percentage,
       volume: e.target.volume,
-    });
+    })
   }
 
   const playHandler = async () => {
-    await state.isPlaying ? currentMusic.current.play() : currentMusic.current.pause();
+    await state.isPlaying ? currentMusic.current.play() : currentMusic.current.pause()
   }
 
   const next = () => {
@@ -75,7 +71,7 @@ const MusicPlayer = () => {
       })
 
     playHandler()
-  };
+  }
 
   const prev = () => {
     if (state.counter === 0)
@@ -96,14 +92,11 @@ const MusicPlayer = () => {
   }
 
   const play = () => {
-    if (!state.isPlaying) {
+    if (!state.isPlaying)
       currentMusic.current.play()
-      setState({ ...state, isPlaying: !state.isPlaying })
-    }
-    else {
+    else
       currentMusic.current.pause()
-      setState({ ...state, isPlaying: !state.isPlaying })
-    }
+    setState({ ...state, isPlaying: !state.isPlaying })
   }
 
   const musicEndHandler = async () => {
@@ -112,7 +105,7 @@ const MusicPlayer = () => {
       setState({ ...state, isPlaying: !state.isPlaying })
     }
     else {
-      await next();
+      next();
       await currentMusic.current.play();
     }
   }
